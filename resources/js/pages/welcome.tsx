@@ -36,6 +36,15 @@ export default function Welcome() {
 
   return (
       <div>
+      <div className={'scale-110 rayscale opacity-40 absolute '} style={{
+        backgroundImage: `url('/t.webp')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
+      }} />
         <div className={'items-stretch z-10 bg-background shadow-xl shadow-black/1 w-screen content-stretch fixed border-b border-border flex justify-between'}>
           <div className={'px-10 hover:bg-neutral-200 transition-all cursor-pointer content-center'}><Menu/></div>
           <img src={'/logo.jpeg'} alt="Logo" className="w-20 h-20 my-1"/>
