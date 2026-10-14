@@ -37,7 +37,7 @@ export default function Welcome() {
   return (
       <div>
       <div className={'scale-11s0 grayscale opacity-40 absolute '} style={{
-        backgroundImage: `url('/t.webp')`,
+        backgroundImage: `url('/bg.jpeg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -65,7 +65,7 @@ export default function Welcome() {
 
             <div className={'flex items-center justify-center flex-wrap gap-y-24'}>
               <div className={'min-h-[calc(100vh-200px]'}>
-                <h1 className={'text-6xl text-center'}>تجمع عائلات طرابلس والشمال</h1>
+                <h1 className={'text-4xl font-bold text-center'}>تجمع عائلات طرابلس والشمال</h1>
               </div>
               <div className={'w-full justify-center flex'}><Button className={'mx-auto hover:scale-150 transition-all cursor-pointer scale-140'} size={'lg'}>إنضم الينا</Button></div>
           </div>
