@@ -36,7 +36,7 @@ export default function Welcome() {
 
   return (
       <div>
-      <div className={'scale-110 rayscale opacity-40 absolute '} style={{
+      <div className={'scale-11s0 grayscale opacity-40 absolute '} style={{
         backgroundImage: `url('/t.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
