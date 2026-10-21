@@ -88,7 +88,7 @@
 @layer utilities {
     .stripes {
         background-image: repeating-linear-gradient(
-                45deg,
+                -50deg,
                 rgba(0, 0, 0, 0.2),
                 rgba(0, 0, 0, 0.2) 4px,
                 transparent 4px,
