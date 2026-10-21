@@ -89,8 +89,8 @@
     .stripes {
         background-image: repeating-linear-gradient(
                 -50deg,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2) 4px,
+                rgba(0, 0, 0, 0.01),
+                rgba(0, 0, 0, 0.01) 4px,
                 transparent 4px,
                 transparent 10px
         );

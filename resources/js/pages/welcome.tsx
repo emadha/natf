@@ -67,14 +67,14 @@ export default function Welcome() {
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 تجمع عائلات طرابلس والشمال
               </h1>
-              <p className="text-base sm:text-lg text-muted-foreground font-medium leading-relaxed">
+              <p className="text-base bg-background rounded-full px-5 sm:text-lg text-muted-foreground font-medium leading-relaxed">
                 صوت واحد من أجل التنمية، التكافل الاجتماعي، وصون هوية طرابلس والشمال.
               </p>
             </div>
           </div>
 
           {/* Mission Statement Box */}
-          <Card className="border-border/60 shadow-2xs bg-card/80 backdrop-blur-xs">
+          <Card className="border-border/60 shadow-2xs bg-card backdrop-blur-xs">
             <CardContent className="p-6 sm:p-8 text-center space-y-2">
               <h2 className="text-lg font-semibold text-foreground">رسالتنا</h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
