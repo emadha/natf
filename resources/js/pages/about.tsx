@@ -5,8 +5,10 @@ import {Link} from '@inertiajs/react';
 export default function About() {
   return (
       <PageContainer title={'من نحن'}>
-        <div className="mx-auto max-w-prose space-y-6 text-right leading-relaxed text-muted-foreground" dir="rtl">
-          <Link href={'/'} className={'text-center block w-full'}>العودة</Link>
+        <Link href={'/'} className={'text-center mb-10 text-xs text-muted-foreground hover:text-foreground transition-colors pt-2 block'}>
+          العودة إلى الصفحة الرئيسية
+        </Link>
+        <div className="mx-auto max-w-prose space-y-6 text-right leading-relaxed text-muted-foreground">
           <p>
             هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى
             يولدها التطبيق.

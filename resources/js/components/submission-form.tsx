@@ -1,5 +1,5 @@
 import React, { FormEvent, MouseEvent, ChangeEvent, useRef, useState } from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { store } from '@/routes/submissions';
 
 import { Button } from '@/components/ui/button';
@@ -139,12 +139,15 @@ export default function SubmissionForm() {
       <div className="max-w-3xl mx-auto my-12 px-4" dir="rtl">
         <Card className="border-border shadow-xs rounded-lg">
           <CardHeader className="text-center border-b pb-6 space-y-1">
-            <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-              تجمع عائلات طرابلس والشمال
-            </CardTitle>
-            <CardDescription className="text-base font-medium text-muted-foreground">
+            <CardTitle className="text-3xl font-bold tracking-tight text-foreground">
               طلب إنتساب
+            </CardTitle>
+            <CardDescription className="text-sm font-normal text-muted-foreground pt-1">
+              يرجى تعبئة كافة البيانات المطلوبة وإرفاق المستندات اللازمة لاستكمال طلب الإنتساب.
             </CardDescription>
+            <Link href={'/'} className={'text-xs text-muted-foreground hover:text-foreground transition-colors pt-2 block'}>
+              العودة إلى الصفحة الرئيسية
+            </Link>
           </CardHeader>
 
           {flash?.success && (
@@ -169,6 +172,7 @@ export default function SubmissionForm() {
                     </Label>
                     <Input
                         id="full_name"
+                        placeholder="أدخل إسمك الكامل مع إسم الأب والعائلة"
                         value={data.full_name}
                         onChange={(e) => setData('full_name', e.target.value)}
                     />
@@ -181,6 +185,7 @@ export default function SubmissionForm() {
                     <Label htmlFor="place_of_birth" className="text-xs font-medium">مكان الولادة</Label>
                     <Input
                         id="place_of_birth"
+                        placeholder="مثال: طرابلس - التل"
                         value={data.place_of_birth}
                         onChange={(e) => setData('place_of_birth', e.target.value)}
                     />
@@ -200,6 +205,7 @@ export default function SubmissionForm() {
                     <Label htmlFor="residential_address" className="text-xs font-medium">عنوان السكن</Label>
                     <Input
                         id="residential_address"
+                        placeholder="المنطقة، الشارع، البناية، الطابق"
                         value={data.residential_address}
                         onChange={(e) => setData('residential_address', e.target.value)}
                     />
@@ -209,6 +215,7 @@ export default function SubmissionForm() {
                     <Label htmlFor="occupation" className="text-xs font-medium">المهنة</Label>
                     <Input
                         id="occupation"
+                        placeholder="مثال: مهندس، مهندس معماري، تاجر"
                         value={data.occupation}
                         onChange={(e) => setData('occupation', e.target.value)}
                     />
@@ -218,6 +225,7 @@ export default function SubmissionForm() {
                     <Label htmlFor="work_address" className="text-xs font-medium">عنوان العمل</Label>
                     <Input
                         id="work_address"
+                        placeholder="المنطقة، اسم الشارع أو الشركة"
                         value={data.work_address}
                         onChange={(e) => setData('work_address', e.target.value)}
                     />
@@ -228,6 +236,7 @@ export default function SubmissionForm() {
                     <Input
                         id="phone_number"
                         type="tel"
+                        placeholder="06/XXXXXX"
                         value={data.phone_number}
                         onChange={(e) => setData('phone_number', e.target.value)}
                     />
@@ -238,6 +247,7 @@ export default function SubmissionForm() {
                     <Input
                         id="mobile_number"
                         type="tel"
+                        placeholder="70/XXXXXX أو 03/XXXXXX"
                         value={data.mobile_number}
                         onChange={(e) => setData('mobile_number', e.target.value)}
                     />
@@ -247,6 +257,7 @@ export default function SubmissionForm() {
                     <Label htmlFor="educational_level" className="text-xs font-medium">التحصيل العلمي</Label>
                     <Input
                         id="educational_level"
+                        placeholder="مثال: إجازة جامعية، ماجستير، ثانوي"
                         value={data.educational_level}
                         onChange={(e) => setData('educational_level', e.target.value)}
                     />
@@ -259,7 +270,7 @@ export default function SubmissionForm() {
                         onValueChange={(val) => setData('blood_type', val)}
                     >
                       <SelectTrigger id="blood_type">
-                        <SelectValue placeholder="اختر الفئة" />
+                        <SelectValue placeholder="اختر فئة الدم" />
                       </SelectTrigger>
                       <SelectContent>
                         {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((type) => (
@@ -301,6 +312,7 @@ export default function SubmissionForm() {
                           <Label htmlFor="other_assoc_name" className="text-xs font-medium">إسم الجمعية</Label>
                           <Input
                               id="other_assoc_name"
+                              placeholder="أدخل اسم الجمعية المنتسب إليها"
                               value={data.other_assoc_name}
                               onChange={(e) => setData('other_assoc_name', e.target.value)}
                           />
@@ -310,6 +322,7 @@ export default function SubmissionForm() {
                           <Label htmlFor="other_assoc_address" className="text-xs font-medium">عنوان الجمعية</Label>
                           <Input
                               id="other_assoc_address"
+                              placeholder="عنوان مقّر الجمعية"
                               value={data.other_assoc_address}
                               onChange={(e) => setData('other_assoc_address', e.target.value)}
                           />
@@ -516,6 +529,7 @@ export default function SubmissionForm() {
                   <Label htmlFor="submission_location" className="text-xs font-medium">موقع التقديم</Label>
                   <Input
                       id="submission_location"
+                      placeholder="مثال: طرابلس"
                       value={data.submission_location}
                       onChange={(e) => setData('submission_location', e.target.value)}
                   />

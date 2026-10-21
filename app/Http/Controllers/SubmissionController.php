@@ -51,7 +51,7 @@ class SubmissionController extends Controller
     public function create(): Response
     {
         return Inertia::render('Submissions/Create', [
-            'title' => ''
+            'title' => 'طلب الإنتساب'
         ]);
     }
 

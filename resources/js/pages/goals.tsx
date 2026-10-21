@@ -59,11 +59,11 @@ export default function Goals() {
 
   return (
       <PageContainer title={'أهداف التجمع'}>
-        <div className="mx-auto max-w-3xl space-y-8 text-right" dir="rtl">
-          <Link href={'/'} className={'text-center block w-full text-muted-foreground hover:text-foreground transition-colors'}>
-            العودة
-          </Link>
+        <Link href={'/'} className={'text-center mb-10 text-xs text-muted-foreground hover:text-foreground transition-colors pt-2 block'}>
+          العودة إلى الصفحة الرئيسية
+        </Link>
 
+        <div className="mx-auto max-w-prose space-y-8 text-right">
           <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
