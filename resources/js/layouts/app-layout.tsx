@@ -33,7 +33,7 @@ export default function AppLayout({children}: AppLayoutProps) {
         {/* Background Image Layer */}
         <div className="stripes fixed inset-0 pointer-events-none -z-10 overflow-hidden">
           <div
-              className="size-full scale-110 grayscale opacity-40"
+              className="size-full scale-110 grayscale opacity-90"
               style={{
                 backgroundImage: `url('/bg.jpeg')`,
                 backgroundSize: 'cover',

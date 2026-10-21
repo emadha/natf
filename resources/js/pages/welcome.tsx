@@ -55,7 +55,7 @@ export default function Welcome() {
         <div className="w-full max-w-4xl space-y-12 my-6">
           {/* Hero Section */}
           <div className="flex flex-col items-center justify-center text-center space-y-6 pt-4">
-            <div className="w-48 h-48 sm:w-56 sm:h-56 bg-white overflow-hidden rounded-2xl flex items-center justify-center">
+            <div className="w-48 h-48 sm:w-56 sm:h-56 overflow-hidden rounded-2xl flex items-center justify-center">
               <img
                   src="/logo.jpeg"
                   alt="تجمع عائلات طرابلس والشمال"
@@ -63,14 +63,7 @@ export default function Welcome() {
               />
             </div>
 
-            <div className="space-y-3 max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-                تجمع عائلات طرابلس والشمال
-              </h1>
-              <p className="text-base bg-background rounded-full px-5 sm:text-lg text-muted-foreground font-medium leading-relaxed">
-                صوت واحد من أجل التنمية، التكافل الاجتماعي، وصون هوية طرابلس والشمال.
-              </p>
-            </div>
+
           </div>
 
           {/* Mission Statement Box */}

@@ -1,16 +1,16 @@
-import React, {ChangeEvent, FormEvent, MouseEvent, useRef, useState} from 'react';
-import {useForm, usePage} from '@inertiajs/react';
-import {store} from '@/routes/submissions';
+import React, { ChangeEvent, FormEvent, MouseEvent, useRef, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
+import { store } from '@/routes/submissions';
 
-import {Button} from '@/components/ui/button';
-import {Input} from '@/components/ui/input';
-import {Label} from '@/components/ui/label';
-import {Checkbox} from '@/components/ui/checkbox';
-import {Alert, AlertDescription} from '@/components/ui/alert';
-import {Separator} from '@/components/ui/separator';
-import {Card, CardContent, CardFooter} from '@/components/ui/card';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
-import {Image as ImageIcon, Loader2, Upload, X} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
+import { CardContent, CardFooter } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Loader2, Upload, X } from 'lucide-react';
 
 interface PageProps {
   flash?: {
@@ -20,11 +20,12 @@ interface PageProps {
 }
 
 export default function SubmissionForm() {
-  const {flash} = usePage<PageProps>().props;
+  const { flash } = usePage<PageProps>().props;
 
-  const {data, setData, post, processing, errors, reset} = useForm({
+  const { data, setData, post, processing, errors, reset } = useForm({
     full_name: '',
     place_of_birth: '',
+    civil_registry_number: '',
     date_of_birth: '',
     residential_address: '',
     occupation: '',
@@ -61,10 +62,10 @@ export default function SubmissionForm() {
 
       if (file.type.startsWith('image/')) {
         const url = URL.createObjectURL(file);
-        setPreviews((prev) => ({...prev, [field]: url}));
+        setPreviews((prev) => ({ ...prev, [field]: url }));
       } else {
         setPreviews((prev) => {
-          const next = {...prev};
+          const next = { ...prev };
           delete next[field];
           return next;
         });
@@ -77,7 +78,7 @@ export default function SubmissionForm() {
     if (typeof previews[field] === 'string') {
       URL.revokeObjectURL(previews[field] as string);
       setPreviews((prev) => {
-        const next = {...prev};
+        const next = { ...prev };
         delete next[field];
         return next;
       });
@@ -92,7 +93,7 @@ export default function SubmissionForm() {
       setData('doc_photos', updatedFiles);
 
       const newPreviewUrls = updatedFiles.map((file) => URL.createObjectURL(file));
-      setPreviews((prev) => ({...prev, doc_photos: newPreviewUrls}));
+      setPreviews((prev) => ({ ...prev, doc_photos: newPreviewUrls }));
     }
   };
 
@@ -106,7 +107,7 @@ export default function SubmissionForm() {
     }
 
     const updatedPreviews = currentPreviews.filter((_, i) => i !== index);
-    setPreviews((prev) => ({...prev, doc_photos: updatedPreviews}));
+    setPreviews((prev) => ({ ...prev, doc_photos: updatedPreviews }));
   };
 
   const handleSubmit = (e: FormEvent | MouseEvent) => {
@@ -123,7 +124,7 @@ export default function SubmissionForm() {
   };
 
   return (
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto" dir="rtl">
         <div>
           {flash?.success && (
               <div className="p-6 pb-0">
@@ -138,10 +139,10 @@ export default function SubmissionForm() {
               {/* Section 1: Personal Info */}
               <div className="space-y-4">
                 <h3 className="text-base font-semibold text-foreground">المعلومات الشخصية</h3>
-                <Separator/>
+                <Separator />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1.5 md:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-1.5 md:col-span-3">
                     <Label htmlFor="full_name" className="text-xs font-medium">
                       الإسم الثلاثي <span className="text-destructive">*</span>
                     </Label>
@@ -156,6 +157,7 @@ export default function SubmissionForm() {
                     )}
                   </div>
 
+                  {/* Place of Birth */}
                   <div className="space-y-1.5">
                     <Label htmlFor="place_of_birth" className="text-xs font-medium">مكان الولادة</Label>
                     <Input
@@ -166,6 +168,18 @@ export default function SubmissionForm() {
                     />
                   </div>
 
+                  {/* Civil Registry Number */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="civil_registry_number" className="text-xs font-medium">رقم السجل</Label>
+                    <Input
+                        id="civil_registry_number"
+                        placeholder="مثال: 124"
+                        value={data.civil_registry_number}
+                        onChange={(e) => setData('civil_registry_number', e.target.value)}
+                    />
+                  </div>
+
+                  {/* Date of Birth */}
                   <div className="space-y-1.5">
                     <Label htmlFor="date_of_birth" className="text-xs font-medium">تاريخ الميلاد</Label>
                     <Input
@@ -176,7 +190,7 @@ export default function SubmissionForm() {
                     />
                   </div>
 
-                  <div className="space-y-1.5 md:col-span-2">
+                  <div className="space-y-1.5 md:col-span-3">
                     <Label htmlFor="residential_address" className="text-xs font-medium">عنوان السكن</Label>
                     <Input
                         id="residential_address"
@@ -186,17 +200,17 @@ export default function SubmissionForm() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1.5">
                     <Label htmlFor="occupation" className="text-xs font-medium">المهنة</Label>
                     <Input
                         id="occupation"
-                        placeholder="مثال: مهندس، مهندس معماري، تاجر"
+                        placeholder="مثال: مهندس، تاجر"
                         value={data.occupation}
                         onChange={(e) => setData('occupation', e.target.value)}
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1.5">
                     <Label htmlFor="work_address" className="text-xs font-medium">عنوان العمل</Label>
                     <Input
                         id="work_address"
@@ -206,7 +220,7 @@ export default function SubmissionForm() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1">
                     <Label htmlFor="phone_number" className="text-xs font-medium">رقم الهاتف</Label>
                     <Input
                         id="phone_number"
@@ -217,35 +231,35 @@ export default function SubmissionForm() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1">
                     <Label htmlFor="mobile_number" className="text-xs font-medium">رقم الخلوي</Label>
                     <Input
                         id="mobile_number"
                         type="tel"
-                        placeholder="70/XXXXXX أو 03/XXXXXX"
+                        placeholder="70/XXXXXX"
                         value={data.mobile_number}
                         onChange={(e) => setData('mobile_number', e.target.value)}
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1">
                     <Label htmlFor="educational_level" className="text-xs font-medium">التحصيل العلمي</Label>
                     <Input
                         id="educational_level"
-                        placeholder="مثال: إجازة جامعية، ماجستير، ثانوي"
+                        placeholder="مثال: إجازة جامعية"
                         value={data.educational_level}
                         onChange={(e) => setData('educational_level', e.target.value)}
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 md:col-span-1">
                     <Label htmlFor="blood_type" className="text-xs font-medium">فئة الدم</Label>
                     <Select
                         value={data.blood_type}
                         onValueChange={(val) => setData('blood_type', val)}
                     >
                       <SelectTrigger id="blood_type">
-                        <SelectValue placeholder="اختر فئة الدم"/>
+                        <SelectValue placeholder="اختر فئة الدم" />
                       </SelectTrigger>
                       <SelectContent>
                         {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((type) => (
@@ -262,7 +276,7 @@ export default function SubmissionForm() {
               {/* Section 2: Other Association */}
               <div className="space-y-4">
                 <h3 className="text-base font-semibold text-foreground">العضوية في جمعيات أخرى</h3>
-                <Separator/>
+                <Separator />
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-reverse">
@@ -309,14 +323,13 @@ export default function SubmissionForm() {
 
               {/* Section 3: Declaration Text */}
               <div className="p-4 bg-muted/30 rounded-md border border-border/60 text-xs text-muted-foreground leading-relaxed">
-                بعد اطلاعي على النظام الأساسي والداخلي لجمعية &quot;تجمع عائلات طرابلس والشمال&quot;، أرجو قبول إنتسابي إلى جمعيتكم. وإني أتعهد بالعمل على تطبيق الأهداف والغايات والتقيد بأنظمة الجمعية
-                والإلتزام بالقرارات الصادرة عنها.
+                بعد اطلاعي على النظام الأساسي والداخلي لجمعية &quot;تجمع عائلات طرابلس والشمال&quot;، أرجو قبول إنتسابي إلى جمعيتكم. وإني أتعهد بالعمل على تطبيق الأهداف والغايات والتقيد بأنظمة الجمعية والإلتزام بالقرارات الصادرة عنها.
               </div>
 
               {/* Section 4: Document Upload Buttons */}
               <div className="space-y-4">
                 <h3 className="text-base font-semibold text-foreground">المستندات المرفقة</h3>
-                <Separator/>
+                <Separator />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* 1. Identity Copy */}
@@ -339,7 +352,7 @@ export default function SubmissionForm() {
                           onClick={() => idCopyRef.current?.click()}
                           className="text-xs"
                       >
-                        <Upload className="size-3.5 me-1.5"/>
+                        <Upload className="size-3.5 me-1.5" />
                         رفع المستند
                       </Button>
                       {data.doc_id_copy && (
@@ -350,177 +363,21 @@ export default function SubmissionForm() {
                     </div>
                     {typeof previews.doc_id_copy === 'string' && (
                         <div className="relative size-16 mt-2 rounded-md overflow-hidden border border-border">
-                          <img src={previews.doc_id_copy} alt="Preview" className="size-full object-cover"/>
+                          <img src={previews.doc_id_copy} alt="Preview" className="size-full object-cover" />
                           <button
                               type="button"
                               onClick={() => removeSingleFile('doc_id_copy')}
                               className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
                           >
-                            <X className="size-3"/>
+                            <X className="size-3" />
                           </button>
                         </div>
                     )}
                     {errors.doc_id_copy && <p className="text-destructive text-xs">{errors.doc_id_copy}</p>}
                   </div>
-
-                  {/* 2. Judicial Record */}
-                  <div className="space-y-2">
-                    <Label className="text-xs font-medium block">
-                      2- سجل عدلي جديد
-                    </Label>
-                    <input
-                        ref={judicialRef}
-                        type="file"
-                        accept="image/*,.pdf"
-                        className="hidden"
-                        onChange={handleSingleFileChange('doc_judicial_record')}
-                    />
-                    <div className="flex items-center gap-3">
-                      <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => judicialRef.current?.click()}
-                          className="text-xs"
-                      >
-                        <Upload className="size-3.5 me-1.5"/>
-                        رفع المستند
-                      </Button>
-                      {data.doc_judicial_record && (
-                          <span className="text-xs text-muted-foreground truncate max-w-[140px]">
-                            {data.doc_judicial_record.name}
-                          </span>
-                      )}
-                    </div>
-                    {typeof previews.doc_judicial_record === 'string' && (
-                        <div className="relative size-16 mt-2 rounded-md overflow-hidden border border-border">
-                          <img src={previews.doc_judicial_record} alt="Preview" className="size-full object-cover"/>
-                          <button
-                              type="button"
-                              onClick={() => removeSingleFile('doc_judicial_record')}
-                              className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                          >
-                            <X className="size-3"/>
-                          </button>
-                        </div>
-                    )}
-                    {errors.doc_judicial_record && <p className="text-destructive text-xs">{errors.doc_judicial_record}</p>}
-                  </div>
-
-                  {/* 3. Degree Copy */}
-                  <div className="space-y-2">
-                    <Label className="text-xs font-medium block">
-                      3- صورة عن الشهادة العلمية
-                    </Label>
-                    <input
-                        ref={degreeRef}
-                        type="file"
-                        accept="image/*,.pdf"
-                        className="hidden"
-                        onChange={handleSingleFileChange('doc_degree_copy')}
-                    />
-                    <div className="flex items-center gap-3">
-                      <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => degreeRef.current?.click()}
-                          className="text-xs"
-                      >
-                        <Upload className="size-3.5 me-1.5"/>
-                        رفع المستند
-                      </Button>
-                      {data.doc_degree_copy && (
-                          <span className="text-xs text-muted-foreground truncate max-w-[140px]">
-                            {data.doc_degree_copy.name}
-                          </span>
-                      )}
-                    </div>
-                    {typeof previews.doc_degree_copy === 'string' && (
-                        <div className="relative size-16 mt-2 rounded-md overflow-hidden border border-border">
-                          <img src={previews.doc_degree_copy} alt="Preview" className="size-full object-cover"/>
-                          <button
-                              type="button"
-                              onClick={() => removeSingleFile('doc_degree_copy')}
-                              className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                          >
-                            <X className="size-3"/>
-                          </button>
-                        </div>
-                    )}
-                    {errors.doc_degree_copy && <p className="text-destructive text-xs">{errors.doc_degree_copy}</p>}
-                  </div>
-
-                  {/* 4. Two Personal Photos (Unified Field) */}
-                  <div className="space-y-2">
-                    <Label className="text-xs font-medium block">
-                      4- صورتان شمسيتان لطالب الإنتساب (حد أقصى 2)
-                    </Label>
-                    <input
-                        ref={photosRef}
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        className="hidden"
-                        onChange={handlePhotosChange}
-                    />
-                    <div className="flex items-center gap-3">
-                      <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          disabled={data.doc_photos.length >= 2}
-                          onClick={() => photosRef.current?.click()}
-                          className="text-xs"
-                      >
-                        <ImageIcon className="size-3.5 me-1.5"/>
-                        رفع الصور ({data.doc_photos.length}/2)
-                      </Button>
-                    </div>
-
-                    {Array.isArray(previews.doc_photos) && previews.doc_photos.length > 0 && (
-                        <div className="flex gap-2 mt-2">
-                          {previews.doc_photos.map((src, idx) => (
-                              <div key={idx} className="relative size-16 rounded-md overflow-hidden border border-border">
-                                <img src={src} alt={`Photo ${idx + 1}`} className="size-full object-cover"/>
-                                <button
-                                    type="button"
-                                    onClick={() => removePhoto(idx)}
-                                    className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                                >
-                                  <X className="size-3"/>
-                                </button>
-                              </div>
-                          ))}
-                        </div>
-                    )}
-                    {errors.doc_photos && <p className="text-destructive text-xs">{errors.doc_photos}</p>}
-                  </div>
                 </div>
               </div>
 
-              {/* Section 5: Date and Place */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                <div className="space-y-1.5">
-                  <Label htmlFor="submission_location" className="text-xs font-medium">موقع التقديم</Label>
-                  <Input
-                      id="submission_location"
-                      placeholder="مثال: طرابلس"
-                      value={data.submission_location}
-                      onChange={(e) => setData('submission_location', e.target.value)}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label htmlFor="submission_date" className="text-xs font-medium">تاريخ التقديم</Label>
-                  <Input
-                      id="submission_date"
-                      type="date"
-                      value={data.submission_date}
-                      onChange={(e) => setData('submission_date', e.target.value)}
-                  />
-                </div>
-              </div>
             </CardContent>
 
             <CardFooter className="p-6 sm:p-8 pt-0">
@@ -532,7 +389,7 @@ export default function SubmissionForm() {
               >
                 {processing ? (
                     <>
-                      <Loader2 className="size-4 animate-spin ml-2"/>
+                      <Loader2 className="size-4 animate-spin ml-2" />
                       <span>جاري الإرسال...</span>
                     </>
                 ) : (
