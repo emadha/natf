@@ -1,125 +1,100 @@
-import React, {useEffect, useRef, useState} from 'react';
-import Form from '@/pages/components/form';
-import {Link} from '@inertiajs/react';
-import SocialLinks from '@/pages/components/social-links';
-import {AnimatePresence, motion} from 'framer-motion';
-import {Menu} from 'lucide-react';
-import {Button} from '@/components/ui/button';
+import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Heart, Landmark, Shield, Users, LucideIcon } from 'lucide-react';
+
+interface Pillar {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const pillars: Pillar[] = [
+  {
+    icon: Users,
+    title: 'وحدة الصف والتكافل',
+    description: 'جمع كلمة عائلات طرابلس والشمال وتعزيز الروابط الاجتماعية بين أبنائها.',
+  },
+  {
+    icon: Heart,
+    title: 'الرعاية الاجتماعية',
+    description: 'تقديم الدعم والمساعدة للأسر المتعففة وتطوير المبادرات الخيرية المحلية.',
+  },
+  {
+    icon: Landmark,
+    title: 'التنمية والتطوير',
+    description: 'متابعة المشاريع التنموية والتاريخية التي تخدم طرابلس والشمال.',
+  },
+  {
+    icon: Shield,
+    title: 'تمثيل الحقوق',
+    description: 'إيصال صوت العائلات والعمل المستمر على تحسين الخدمات العامة.',
+  },
+];
+
+function PillarCard({ icon: Icon, title, description }: Pillar) {
+  return (
+      <Card className="border-border/60 shadow-2xs">
+        <CardContent className="p-5 flex items-start space-x-reverse">
+          <div className="px-2 me-2 rounded-lg text-primary shrink-0">
+            <Icon className="size-5" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-semibold text-sm text-foreground">{title}</h3>
+            <p className="text-xs text-muted-foreground leading-normal">
+              {description}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+  );
+}
 
 export default function Welcome() {
-  const [showLogo, setShowLogo] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const scrollAnchorRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLogo(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const toggleForm = () => {
-    const nextState = !showForm;
-    setShowForm(nextState);
-
-    if (nextState) {
-      setTimeout(() => {
-        scrollAnchorRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center',
-        });
-      }, 220);
-    }
-  };
-
   return (
-      <div>
-      <div className={'scale-11s0 grayscale opacity-40 absolute '} style={{
-        backgroundImage: `url('/bg.jpeg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-      }} />
-        <div className={'items-stretch z-10 bg-background shadow-xl shadow-black/1 w-screen content-stretch fixed border-b border-border flex justify-between'}>
-          <div className={'px-10 hover:bg-neutral-200 transition-all cursor-pointer content-center'}><Menu/></div>
-          <img src={'/logo.jpeg'} alt="Logo" className="w-20 h-20 my-1"/>
-        </div>
-
-        <div className="flex flex-col items-center justify-between pt-[10vh] px-4">
-          {/* Logo Placeholder with smooth fade/scale transition */}
-          <div className={'min-h-[80vh]'}>
-            <div className="flex flex-wrap justify-center items-center my-6">
-              <motion.div
-                  animate={{scale: showForm ? 0.75 : 1}}
-                  transition={{duration: 0.25}}
-                  className="w-64 h-64 bg-muted overflow-hidden rounded-2xl flex items-center justify-center origin-center"
-              >
-                <img src={'/logo.jpeg'} alt="Logo" className="w-full h-full"/>
-              </motion.div>
+      <>
+        <div className="w-full max-w-4xl space-y-12 my-6">
+          {/* Hero Section */}
+          <div className="flex flex-col items-center justify-center text-center space-y-6 pt-4">
+            <div className="w-48 h-48 sm:w-56 sm:h-56 bg-white overflow-hidden rounded-2xl flex items-center justify-center">
+              <img
+                  src="/logo.jpeg"
+                  alt="تجمع عائلات طرابلس والشمال"
+                  className="w-full h-full object-cover"
+              />
             </div>
 
-            <div className={'flex items-center justify-center flex-wrap gap-y-24'}>
-              <div className={'min-h-[calc(100vh-200px]'}>
-                <h1 className={'text-4xl font-bold text-center'}>تجمع عائلات طرابلس والشمال</h1>
-              </div>
-              <div className={'w-full justify-center flex'}><Button className={'mx-auto hover:scale-150 transition-all cursor-pointer scale-140'} size={'lg'}>إنضم الينا</Button></div>
-          </div>
-          </div>
-
-
-
-          {/* Menu Items with dynamic size/position transition */}
-          <motion.div
-              animate={{
-                scale: showForm ? 0.9 : 1.15,
-                y: showForm ? -10 : 0,
-              }}
-              transition={{duration: 0.25}}
-              className={'flex justify-center gap-x-8 my-6'}
-          >
-
-
-            <motion.button
-                onClick={toggleForm}
-                animate={{fontWeight: showForm ? 700 : 500}}
-                transition={{duration: 0.2}}
-                className="text-foreground hover:text-primary transition-colors cursor-pointer text-lg"
-            >
-              طلب إستمارة
-            </motion.button>
-            <Link href="/goals" className="text-foreground hover:text-primary transition-colors font-medium text-lg">أهداف التجمع</Link>
-            <Link href="/about" className="text-foreground hover:text-primary transition-colors font-medium text-lg">من نحن</Link>
-          </motion.div>
-
-          {/* Form Container */}
-          <div className="w-full flex flex-col items-center justify-center">
-            <AnimatePresence>
-              {showForm && (
-                  <motion.div
-                      initial={{opacity: 0, y: 10, height: 0}}
-                      animate={{opacity: 1, y: 0, height: 'auto'}}
-                      exit={{opacity: 0, y: 10, height: 0}}
-                      transition={{duration: 0.2}}
-                      className="w-full max-w-lg overflow-hidden"
-                  >
-                    <Form/>
-                  </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Helper anchor ref for centering scroll */}
-            <div ref={scrollAnchorRef} className="w-full h-1"/>
+            <div className="space-y-3 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+                تجمع عائلات طرابلس والشمال
+              </h1>
+              <p className="text-base sm:text-lg text-muted-foreground font-medium leading-relaxed">
+                صوت واحد من أجل التنمية، التكافل الاجتماعي، وصون هوية طرابلس والشمال.
+              </p>
+            </div>
           </div>
 
-          <div className={'justify-center flex items-center gap-x-3 mt-auto pt-6'}>
-            <SocialLinks/>
+          {/* Mission Statement Box */}
+          <Card className="border-border/60 shadow-2xs bg-card/80 backdrop-blur-xs">
+            <CardContent className="p-6 sm:p-8 text-center space-y-2">
+              <h2 className="text-lg font-semibold text-foreground">رسالتنا</h2>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                يسعى تجمع عائلات طرابلس والشمال إلى تعزيز أواصر المحبة والتعاون بين أبناء المدينة والجوار، وتقديم الرعاية الاجتماعية والصحية والتعليمية للأسر، والعمل كدستور مدني يمثل تطلعات الأهالي في بناء مستقبل أفضل.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Key Pillars / Objectives */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {pillars.map((pillar) => (
+                <PillarCard
+                    key={pillar.title}
+                    icon={pillar.icon}
+                    title={pillar.title}
+                    description={pillar.description}
+                />
+            ))}
           </div>
         </div>
-      </div>
+      </>
   );
 }

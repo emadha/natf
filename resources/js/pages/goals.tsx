@@ -85,12 +85,11 @@ export default function Goals() {
                   <motion.div
                       key={index}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.02 }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                      className="p-6 border border-border rounded-xl bg-card text-card-foreground shadow-sm space-y-3"
+                      className="p-6 rounded-xl bg-card text-card-foreground space-y-3"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 text-primary rounded-lg">
+                      <div className="pe-2 text-primary rounded-lg">
                         <Icon className="w-6 h-6" />
                       </div>
                       <h3 className="font-semibold text-lg">{goal.title}</h3>
