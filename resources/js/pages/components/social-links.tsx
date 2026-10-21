@@ -5,7 +5,7 @@ export default function SocialLinks() {
   return (
       <div className="flex items-center gap-4 text-muted-foreground">
         <a
-            href="https://www.facebook.com/profile.php?id=100071965136525"
+            href="https://www.facebook.com/north.tripoli.families/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground transition-colors"
