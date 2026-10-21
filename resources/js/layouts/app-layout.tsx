@@ -31,15 +31,17 @@ export default function AppLayout({children}: AppLayoutProps) {
   return (
       <div className="min-h-screen relative overflow-x-hidden flex flex-col justify-between">
         {/* Background Image Layer */}
-        {/*<div*/}
-        {/*    className="scale-110 grayscale opacity-40 fixed inset-0 pointer-events-none -z-10"*/}
-        {/*    style={{*/}
-        {/*      backgroundImage: `url('/bg.jpeg')`,*/}
-        {/*      backgroundSize: 'cover',*/}
-        {/*      backgroundPosition: 'center',*/}
-        {/*      backgroundRepeat: 'no-repeat',*/}
-        {/*    }}*/}
-        {/*/>*/}
+        <div className="stripes fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div
+              className="size-full scale-110 grayscale opacity-90"
+              style={{
+                backgroundImage: `url('/bg.jpeg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+          />
+        </div>
         {/* Sticky Dynamic Header */}
         <header
             className={`z-50 w-full fixed top-0 left-0 flex justify-between items-center h-16 transition-all duration-300 ease-in-out ${
@@ -115,7 +117,7 @@ export default function AppLayout({children}: AppLayoutProps) {
         </main>
 
         {/* Footer */}
-        <footer className="py-6 flex justify-center items-center gap-x-3 mt-auto border-t border-border/40 bg-background/50 backdrop-blur-xs">
+        <footer className="py-6 flex justify-center items-center gap-x-3 mt-auto bg-background">
           <SocialLinks/>
         </footer>
       </div>

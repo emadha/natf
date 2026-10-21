@@ -2,7 +2,7 @@ import React from 'react';
 import {Head} from '@inertiajs/react';
 
 export default function PageContainer({title, children}: { title: any; children: React.ReactNode }) {
-  return <div className={'py-20'}>
+  return <div className={'py-10 px-5 bg-background'}>
     <Head>
       <title>{title}</title>
     </Head>
