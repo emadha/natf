@@ -1,10 +1,10 @@
-# Protect Export URL with HTTP Basic Auth
-<If "%{REQUEST_URI} =~ m#^/export#">
+# 1. Protect Export Path with Basic Auth
+<Location "/export">
     AuthType Basic
     AuthName "Restricted Export Area"
     AuthUserFile /home/natf/htdocs/north-and-tripoli-families.com/.htpasswd
     Require valid-user
-</If>
+</Location>
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
@@ -13,11 +13,11 @@
 
     RewriteEngine On
 
-    # Handle Authorization Header
+    # Pass HTTP Authorization Header through to PHP/Laravel
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle X-XSRF-Token Header
+    # Pass X-XSRF-Token Header
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
