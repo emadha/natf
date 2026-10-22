@@ -1,3 +1,11 @@
+# Protect Export URL with HTTP Basic Auth
+<If "%{REQUEST_URI} =~ m#^/export#">
+    AuthType Basic
+    AuthName "Restricted Export Area"
+    AuthUserFile /home/natf/htdocs/north-and-tripoli-families.com/.htpasswd
+    Require valid-user
+</If>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
