@@ -1,6 +1,5 @@
 import React from 'react';
 import PageContainer from '@/pages/layouts/page-container';
-import { Link } from '@inertiajs/react';
 import {
   HeartPulse,
   GraduationCap,
@@ -9,7 +8,7 @@ import {
   Users,
   Scale,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 export default function Goals() {
   const goalSections = [
@@ -131,85 +130,112 @@ export default function Goals() {
     },
   ];
 
-  const containerVariants = {
+  // Motion variants
+  const gridContainerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
+        staggerChildren: 0.1,
       },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30, scale: 0.96 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4 },
+      scale: 1,
+      transition: {
+        type: 'spring',
+        damping: 20,
+        stiffness: 120,
+      },
+    },
+  };
+
+  const headerVariants: Variants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.4, ease: 'easeOut' },
     },
   };
 
   return (
-      <PageContainer title={'أهداف التجمع'}>
-        <Link
-            href={'/'}
-            className={
-              'text-center mb-8 text-xs text-muted-foreground hover:text-foreground transition-colors block'
-            }
-        >
-          العودة إلى الصفحة الرئيسية
-        </Link>
-
-        <div className="mx-auto max-w-4xl space-y-12 text-right" dir="rtl">
+      <PageContainer title="أهداف التجمع">
+        <div className="mx-auto max-w-5xl space-y-16 text-right" dir="rtl">
+          {/* Intro text */}
           <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-center text-muted-foreground leading-relaxed max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: -20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+              className="text-center text-muted-foreground leading-relaxed max-w-2xl mx-auto text-lg"
           >
-            يسعى تجمع عائلات طرابلس والشمال إلى تحقيق رؤية شاملة النهوض بالمجتمع
+            يسعى تجمع عائلات طرابلس والشمال إلى تحقيق رؤية شاملة للنهوض بالمجتمع
             وتعزيز حقوق أفراده وتطوير قدراتهم عبر الأهداف الاستراتيجية التالية:
           </motion.p>
 
-          <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="space-y-10"
-          >
+          {/* Goal Sections */}
+          <div className="space-y-28">
             {goalSections.map((section, sIndex) => {
               const SectionIcon = section.icon;
               return (
-                  <motion.div key={sIndex} variants={itemVariants} className="space-y-4">
-                    <div className="flex items-center gap-3 border-b border-border/60 pb-3">
-                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                        <SectionIcon className="w-5 h-5" />
-                      </div>
-                      <h2 className="font-bold text-xl text-foreground">
+                  <section key={sIndex} className="space-y-6">
+                    {/* Category Header */}
+                    <motion.div
+                        variants={headerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-50px' }}
+                        className="flex items-center gap-3 border-b border-border/60 pb-4"
+                    >
+                      <motion.div
+                          whileHover={{ rotate: 12, scale: 1.1 }}
+                          transition={{ type: 'spring', stiffness: 300 }}
+                          className="p-2.5 rounded-xl bg-primary/10 text-primary shadow-xs"
+                      >
+                        <SectionIcon className="w-6 h-6" />
+                      </motion.div>
+                      <h2 className="font-bold md:text-3xl text-foreground tracking-tight">
                         {section.category}
                       </h2>
-                    </div>
+                    </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                    {/* Cards Grid */}
+                    <motion.div
+                        variants={gridContainerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-100px' }}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2"
+                    >
                       {section.items.map((item, iIndex) => (
-                          <div
+                          <motion.div
                               key={iIndex}
-                              className="p-5 rounded-xl bg-card/80 border border-border/50 text-card-foreground space-y-2 hover:border-border transition-colors"
+                              variants={cardVariants}
+                              whileHover={{
+                                y: -6,
+                                transition: { duration: 0.2, ease: 'easeOut' },
+                              }}
+                              whileTap={{ scale: 0.98 }}
+                              className="p-6 rounded-2xl bg-card/60 select-none border border-border/60 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-300 space-y-3 group"
                           >
-                            <h3 className="font-semibold text-base text-foreground">
+                            <h3 className="font-bold text-foreground group-hover:text-primary transition-colors duration-200">
                               {item.title}
                             </h3>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                               {item.description}
                             </p>
-                          </div>
+                          </motion.div>
                       ))}
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </section>
               );
             })}
-          </motion.div>
+          </div>
         </div>
       </PageContainer>
   );

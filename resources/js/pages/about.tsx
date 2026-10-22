@@ -30,15 +30,6 @@ export default function About() {
 
   return (
       <PageContainer title={'من نحن'}>
-        <Link
-            href={'/'}
-            className={
-              'text-center mb-8 text-xs text-muted-foreground hover:text-foreground transition-colors block'
-            }
-        >
-          العودة إلى الصفحة الرئيسية
-        </Link>
-
         <div className="mx-auto max-w-3xl space-y-10 text-right" dir="rtl">
           {/* Main Briefing Box */}
           <motion.div
@@ -47,7 +38,7 @@ export default function About() {
               transition={{ duration: 0.4 }}
               className="p-6 sm:p-8 rounded-2xl bg-card/90 border border-border/60 shadow-xs space-y-4 leading-relaxed text-foreground"
           >
-            <h2 className="text-xl font-bold text-primary border-b border-border/50 pb-3">
+            <h2 className="text-primary border-b border-border/50 pb-3">
               عن التجمع
             </h2>
             <p className="text-base sm:text-lg text-foreground/90 font-medium leading-loose">
@@ -79,10 +70,10 @@ export default function About() {
                     <div className="p-2 w-fit rounded-lg bg-primary/10 text-primary">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-base text-foreground">
+                    <h3 className="text-foreground">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
                   </div>

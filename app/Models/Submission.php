@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Observers\SubmissionObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(SubmissionObserver::class)]
 class Submission extends Model
 {
     use HasFactory;
@@ -25,6 +28,7 @@ class Submission extends Model
         // Personal Information
         'full_name',
         'place_of_birth',
+        'civil_registry_number',
         'date_of_birth',
         'residential_address',
         'occupation',
@@ -39,18 +43,13 @@ class Submission extends Model
         'other_assoc_name',
         'other_assoc_address',
 
+        // Document Attachment
+        'doc_id_copy',
+
         // Administrative Section
         'status',
         'decision_number',
         'board_meeting_date',
-        'submission_location',
-        'submission_date',
-
-        // Documents
-        'doc_id_copy',
-        'doc_judicial_record',
-        'doc_degree_copy',
-        'doc_photos',
     ];
 
     /**
@@ -63,12 +62,7 @@ class Submission extends Model
         return [
             'date_of_birth' => 'date',
             'board_meeting_date' => 'date',
-            'submission_date' => 'date',
             'is_member_of_other_assoc' => 'boolean',
-            'doc_id_copy' => 'boolean',
-            'doc_judicial_record' => 'boolean',
-            'doc_degree_copy' => 'boolean',
-            'doc_photos' => 'boolean',
         ];
     }
 }

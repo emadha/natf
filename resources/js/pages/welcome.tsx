@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Landmark, Shield, Users, LucideIcon } from 'lucide-react';
+import {Card, CardContent} from '@/components/ui/card';
+import {Heart, Landmark, LucideIcon, Shield, Users} from 'lucide-react';
 
 interface Pillar {
   icon: LucideIcon;
@@ -31,15 +31,15 @@ const pillars: Pillar[] = [
   },
 ];
 
-function PillarCard({ icon: Icon, title, description }: Pillar) {
+function PillarCard({icon: Icon, title, description}: Pillar) {
   return (
       <Card className="border-border/60 shadow-2xs">
         <CardContent className="p-5 flex items-start space-x-reverse">
           <div className="px-2 me-2 rounded-lg text-primary shrink-0">
-            <Icon className="size-5" />
+            <Icon className="size-5"/>
           </div>
           <div className="space-y-1">
-            <h3 className="font-semibold text-sm text-foreground">{title}</h3>
+            <h3 className="font-semibold">{title}</h3>
             <p className="text-xs text-muted-foreground leading-normal">
               {description}
             </p>
@@ -69,9 +69,10 @@ export default function Welcome() {
           {/* Mission Statement Box */}
           <Card className="border-border/60 shadow-2xs bg-card backdrop-blur-xs">
             <CardContent className="p-6 sm:p-8 text-center space-y-2">
-              <h2 className="text-lg font-semibold text-foreground">رسالتنا</h2>
+              <h2>رسالتنا</h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                يسعى تجمع عائلات طرابلس والشمال إلى تعزيز أواصر المحبة والتعاون بين أبناء المدينة والجوار، وتقديم الرعاية الاجتماعية والصحية والتعليمية للأسر، والعمل كدستور مدني يمثل تطلعات الأهالي في بناء مستقبل أفضل.
+                يسعى تجمع عائلات طرابلس والشمال إلى تعزيز أواصر المحبة والتعاون بين أبناء المدينة والجوار، وتقديم الرعاية الاجتماعية والصحية والتعليمية للأسر، والعمل كدستور مدني يمثل تطلعات الأهالي في
+                بناء مستقبل أفضل.
               </p>
             </CardContent>
           </Card>

@@ -4,11 +4,19 @@ namespace App\Exports;
 
 use App\Models\Submission;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, WithCustomCsvSettings
+class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, WithCustomCsvSettings, ShouldAutoSize, WithStyles, WithEvents
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -19,15 +27,16 @@ class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, Wi
     }
 
     /**
-     * Headings for the export columns (Arabic labels matching the form)
+     * Headings for the export columns
      */
     public function headings(): array
     {
         return [
             'المعرف (ID)',
             'الإسم الثلاثي',
-            'تاريخ الميلاد',
             'مكان الولادة',
+            'رقم السجل',
+            'تاريخ الميلاد',
             'عنوان السكن',
             'المهنة',
             'عنوان العمل',
@@ -38,15 +47,10 @@ class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, Wi
             'منتسب لجمعية أخرى',
             'إسم الجمعية',
             'عنوان الجمعية',
+            'صورة الهوية/إخراج قيد',
             'حالة الطلب',
             'رقم القرار',
             'تاريخ جلسة الهيئة',
-            'موقع التقديم',
-            'تاريخ التقديم',
-            'صورة الهوية/إخراج قيد',
-            'سجل عدلي',
-            'صورة الشهادة',
-            'صور شمسية',
             'تاريخ الإنشاء',
         ];
     }
@@ -59,8 +63,9 @@ class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, Wi
         return [
             $submission->id,
             $submission->full_name,
-            $submission->date_of_birth,
             $submission->place_of_birth,
+            $submission->civil_registry_number,
+            $submission->date_of_birth?->format('Y-m-d'),
             $submission->residential_address,
             $submission->occupation,
             $submission->work_address,
@@ -71,20 +76,83 @@ class SubmissionsExport implements FromCollection, WithHeadings, WithMapping, Wi
             $submission->is_member_of_other_assoc ? 'نعم' : 'لا',
             $submission->other_assoc_name,
             $submission->other_assoc_address,
+            $submission->doc_id_copy ? 'مرفق' : 'غير مرفق',
             match ($submission->status) {
                 'accepted' => 'مقبول',
                 'rejected' => 'مرفوض',
                 default => 'قيد المراجعة',
             },
             $submission->decision_number,
-            $submission->board_meeting_date,
-            $submission->submission_location,
-            $submission->submission_date,
-            $submission->doc_id_copy ? 'مرفق' : 'غير مرفق',
-            $submission->doc_judicial_record ? 'مرفق' : 'غير مرفق',
-            $submission->doc_degree_copy ? 'مرفق' : 'غير مرفق',
-            $submission->doc_photos ? 'مرفق' : 'غير مرفق',
+            $submission->board_meeting_date?->format('Y-m-d'),
             $submission->created_at?->toDateTimeString(),
+        ];
+    }
+
+    /**
+     * Define custom row/cell styles
+     */
+    public function styles(Worksheet $sheet): array
+    {
+        return [
+            // Style Header Row
+            1 => [
+                'font' => [
+                    'bold' => true,
+                    'color' => ['rgb' => 'FFFFFF'],
+                    'size' => 11,
+                ],
+                'fill' => [
+                    'fillType' => Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => '1F2937'],
+                ],
+                'alignment' => [
+                    'vertical' => Alignment::VERTICAL_CENTER,
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Set sheet-level configurations (RTL layout, gridlines, auto-padding, borders)
+     */
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $highestColumn = $sheet->getHighestColumn();
+                $highestRow = $sheet->getHighestRow();
+
+                // Set Right-To-Left direction for Arabic Excel readers
+                $sheet->setRightToLeft(true);
+
+                // Set Header row height
+                $sheet->getRowDimension(1)->setRowHeight(32);
+
+                // Apply styling to all data cells
+                $fullRange = "A1:{$highestColumn}{$highestRow}";
+
+                $sheet->getStyle($fullRange)->applyFromArray([
+                    'alignment' => [
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => 'E5E7EB'], // Light gray borders
+                        ],
+                    ],
+                ]);
+
+                // Set minimum width for auto-sized columns so they don't look cramped
+                foreach (range('A', $highestColumn) as $col) {
+                    $currentWidth = $sheet->getColumnDimension($col)->getWidth();
+                    if ($currentWidth < 15) {
+                        $sheet->getColumnDimension($col)->setWidth(16);
+                    }
+                }
+            },
         ];
     }
 
