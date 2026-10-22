@@ -43,10 +43,6 @@
 
 ---
 
-<x-mail::button :url="config('app.url') . '/admin/submissions/' . $submission->id">
-    معاينة الطلب الكامل في لوحة التحكم
-</x-mail::button>
-
 مع خالص الشكر والتقدير،
 **{{ config('app.name') }}**
 </x-mail::message>
